@@ -1,0 +1,29 @@
+
+
+{% extends '../../base.html' %}
+
+{% block title %} update Provider {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block providers %}active{% endblock %}
+
+{% block content %}
+
+    <div class=" d-flex justify-content-center align-items-center">
+        <div class="card w-50">
+            <div class="card-body">
+                <h3 class="text-center main-color-text">Update provider</h3>
+                <form method="post">
+                    <div class="form-group">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    </div> 
+                </form>
+            </div>
+        </div>
+</div>
+
+{% endblock %}

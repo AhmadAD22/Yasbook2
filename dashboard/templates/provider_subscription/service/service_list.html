@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %} Services {% endblock %}
+
+{% block subscription %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card w-50">
+        <div class="card-body text-center">
+            <h5 class="card-title ">Services</h5>
+    
+            <a href="{% url 'create_service' provider_id  %}" class="btn btn-primary btn-md btn-icon">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+            </a>
+            
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover table-responsive-md text-center">
+    <thead>
+            <tr>
+                <th>Service name</th>
+                <th>Main service</th>
+                <th>Price</th>
+                <th>Offer</th>
+                <th>Image</th>
+                <th>Accept</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+                <tr>
+                    <td>{{ service.name }}</td>
+                    <td>{{ service.main_service.name }}</td>
+                    <td>{{ service.price }}</td>
+                    <td>{{ service.offers }}</td>
+                    <td>
+                        {% if service.image %}
+                            <img src="{{ service.image.url }}" alt="service Image" width="100" height="100" class="img-thumbnail small-image">
+                        {% else %}
+                            No image available
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteserviceModal{{ service.id }}">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                        <a href="{% url 'update_service' service.id %}" class="btn btn-success btn-sm btn-icon">
+                            <i class="now-ui-icons ui-2_settings-90"></i>
+                        </a>
+                    </td>
+                    <!-- Add more columns here as needed -->
+                </tr>
+                                            <!-- Delete service Modal -->
+    <div class="modal fade" id="deleteserviceModal{{ service.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteserviceModalLabel{{ service.id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteserviceModalLabel{{ service.id }}">Delete service </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>"Are you sure you want to delete the service {{service.name}}?"</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <form action="{% url 'delete_service' service.id  %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Delete service Modal -->
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %} Product Orders Report {% endblock %}
+
+{% block subscription %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card w-50">
+        <div class="card-body text-center">
+            <h5 class="card-title">Product Orders Report</h5>
+            <form method="get" action="{% url 'subscription_product_order_details' providersubscription.id %}" class="form-inline">
+                <div class="form-group">
+                    <div class="form-check-inline">
+                        <input type="checkbox" name="product_filter" id="product_filter" value="accepted" class="form-check-input" {% if request.GET.product_filter == 'accepted' %}checked{% endif %}>
+                        <label for="product_filter" class="form-check-label">Accepted Orders</label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input type="checkbox" name="collected_filter" id="collected_filter" value="collected" class="form-check-input" {% if request.GET.collected_filter == 'collected' %}checked{% endif %}>
+                        <label for="collected_filter" class="form-check-label">Not Collected Orders</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request.GET.start_date }}">
+                </div>
+                <div class="form-group">
+                    <label for="end_date">End Date:</label>
+                    <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request.GET.end_date }}">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Apply Filter</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover table-responsive-md text-center">
+    <thead>
+        <tr>
+            <th>Product Order</th>
+            <th>Customer</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Accept</th>
+            <th>Collected</th>
+            <th>Fees</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for product_order in product_orders %}
+            <tr>
+                <td>{{ product_order }}</td>
+                <td>{{ product_order.customer }}</td>
+                <td>{{ product_order.quantity }}</td>
+                <td>{{ product_order.date }}</td>
+                <td>{{ product_order.accept }}</td>
+                <td>{{ product_order.collected }}</td>
+                <td>{{providersubscription.product_profit}}</td>
+        
+
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h5 class="main-color-text">Total Products: {{ total_products }}</h5>
+
+{% endblock %}

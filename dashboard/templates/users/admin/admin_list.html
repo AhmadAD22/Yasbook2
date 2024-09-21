@@ -1,0 +1,82 @@
+{% extends '../../base.html' %}
+
+{% block title %} Admins {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block admins %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card w-50">
+        <div class="card-body text-center">
+            <h5 class="card-title ">Admins</h5>
+    
+            <a href="{% url 'add_admin' %}" class="btn btn-primary btn-md btn-icon">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+            </a>
+            
+        </div>
+    </div>
+</div>
+    <table class="table table-hover table-responsive-md text-center">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th class="">Email</th>
+                <th>Phone</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for admin in admins %}
+            <tr>
+                <td>{{ admin.username }}</td>
+                <td>{{ admin.name }}</td>
+                <td>{{ admin.email }}</td>
+                <td>{{ admin.phone }}</td>
+                <td>
+                    <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ admin.id }}">
+                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                      </button>
+                    <a href="{% url 'update_admin' admin.id %}" class="btn btn-success btn-sm btn-icon">
+                        <i class="now-ui-icons ui-2_settings-90"></i>
+                    </a>
+              
+                </td>
+            </tr>
+                <!-- Delete admin Modal -->
+    <div class="modal fade" id="deleteadminModal{{ admin.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteadminModalLabel{{ admin.id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteadminModalLabel{{ admin.id }}">Delete Admin </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>"Are you sure you want to delete the Admin {{admin.name}}?"</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <form action="{% url 'delete_admin' admin.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Delete admin Modal -->
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}

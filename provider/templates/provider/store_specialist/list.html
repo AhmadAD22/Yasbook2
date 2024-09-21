@@ -1,0 +1,46 @@
+{% extends '../../provider_base.html' %}
+{% block title %} Specialists {% endblock %}
+{% block specialists %}active{% endblock %}
+{% block store %}active{% endblock store %}
+
+{% block breadcrumbt %}
+<li class="breadcrumb-item "><a a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+<li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{% url "store-specialist-list" %}">Specialists</a></li>
+{% endblock breadcrumbt %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center"> 
+    <h3 class="text-primary">Specialists</h3>
+     <a class="btn btn-primary m-2" href="{% url "store-specialist-create" %}"> 
+        <i class="bi bi-plus-circle white-icon"></i>
+     </a> 
+</div> 
+        <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+             <thead> 
+                <tr class="text-center"> 
+                    <th>#</th> 
+                    <th> الاسم</th> 
+                    <th>رقم الهاتف</th>  
+                    <th>الصورة</th>
+                </tr>
+            </thead >
+            <tbody class="text-center">
+              {% for specialist in specialists %}
+                <tr class="clickable-row"  onclick="window.location.href='{% url 'store-specialist-update' specialist.id %}'">
+                  <td>{{ specialist.id }}</td>
+                  <td class="text-light">{{ specialist.name }}</td>
+                  <td>{{ specialist.phone }}</td>
+                  <td>
+                    {% if specialist.image %}
+                      <img src="{{ specialist.image.url }}" alt="specialist Image" width="100" height="100" class="img-thumbnail small-image">
+                    {% else %}
+                      No image available
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+            </table>
+
+            {% endblock %}

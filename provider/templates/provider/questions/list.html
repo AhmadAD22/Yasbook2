@@ -1,0 +1,40 @@
+{% extends '../../provider_base.html' %}
+{% block title %} Questions {% endblock %}
+{% block questions %}active{% endblock %}
+{% block store %}active{% endblock store %}
+
+{% block breadcrumbt %}
+<li class="breadcrumb-item "><a a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+<li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{% url "common_question_list" %}">Questions</a></li>
+{% endblock breadcrumbt %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center"> 
+    <h3 class="text-primary">Common Questions</h3>
+     <a class="btn btn-primary m-2" href="{% url "common_question_create" %}"> 
+        <i class="bi bi-plus-circle white-icon"></i>
+     </a> 
+</div> 
+  <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+    <thead>
+      <tr class="text-center">
+        <th>#</th>
+        <th>Question</th>
+        
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      {% for common_question in common_questions %}
+      <tr class="clickable-row"  onclick="window.location.href='{% url 'common_question_edit' common_question.id %}'">
+            <td>{{ common_question.id }}</td>
+          <td>{{ common_question.question }}</td>
+          
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="2">No common questions found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

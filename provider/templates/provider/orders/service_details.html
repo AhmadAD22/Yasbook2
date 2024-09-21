@@ -1,0 +1,91 @@
+{% extends '../../provider_base.html' %}
+{% load static %}
+{% block orders %}active{% endblock %}
+{% block service_order %}active{% endblock service_order %}
+{% block breadcrumbt %}
+    <li class="breadcrumb-item "><a a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a class="text-light" href="{% url "provider-service-orders" %}">service orders</a></li>
+    <li class="breadcrumb-item" aria-current="page"><a class="text-primary" href="">{{ service_order.service.name }}</a></li>
+{% endblock breadcrumbt %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-12">
+            <div class="card  shadow-sm " >
+                <div class="card-header text-center  text-white py-3">
+                    <h4 class="mb-0">تفاصيل طلب الخدمة</h4>
+                </div>
+                <div class="card-body  text-right">
+                    <div class="row">
+                        <div class="col-md-6">
+                        
+                            <p><strong>المتجر:</strong> {{ service_order.service.store.name }}</p>
+                            <hr>
+                            <p><strong>الخدمة الرئيسية:</strong> {{ service_order.service.main_service.name }}</p>
+                            <hr>
+                            <p><strong>اسم الخدمة:</strong> {{ service_order.service.name }}</p>
+                            <hr>
+                            <p><strong>الأخصائيين:</strong>
+                                {% for specialist in service_order.service.specialists.all %}
+                                    {{ specialist.name }} 
+                                {% endfor %}
+                            </p>
+                            <hr>
+                            <p><strong>حالة الطلب:</strong> {{ service_order.get_status_display }}</p>
+                            <hr>
+                            <p><strong>كوبون:</strong> 
+                                {% if service_order.coupon %}
+                                {{ service_order.coupon.value }}% 
+                                {% else %}
+                                لا يوجد
+                                {% endif %}
+                            </p>
+                            <hr>
+                            <p><strong>الخصم:</strong> {{ service_order.service.offers }}%</p>
+                            <hr>
+                            <p><strong>الضريبة:</strong> {{ service_order.tax }}ر.س </p>
+                            <hr>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <p><strong>السعر:</strong> {{ service_order.price_with_coupon }} .ر.س </p>
+                            <hr>
+                            <p><strong>المدة:</strong> {{ service_order.service.duration }} دقيقة</p>
+                            <hr>
+                            <p><strong>تاريخ الحجز:</strong> {{ service_order.date|date:'Y-m-d' }}</p>
+                            <hr>
+                            <p><strong> وقت البداية:</strong> {{ service_order.time_start|time:'H:i:s' }}</p>
+                            <hr>
+                            <p><strong>العميل:</strong> {{ service_order.customer.name }}</p>
+                            <hr>
+                            <p><strong>الهاتف:</strong> {{ service_order.customer.phone }}</p>
+                            <hr>
+                            <p><strong>العنوان:</strong> {{ service_order.customer.address }}</p>
+                            <hr> 
+                        </div>
+                    
+                    </div> 
+                    {% if service_order.status == "PENDING" %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="btn btn-primary" href="{% url "accept_service_order" service_order.id %}">قبول</a>
+                            <a class="btn btn-danger" href="{% url "reject_service_order" service_order.id %}">رفض</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if service_order.status == "IN_PROGRESS" %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="btn btn-primary" href="{% url "compalte_service_order" service_order.id %}">مكتمل</a>
+                    </div>
+                </div>
+                {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

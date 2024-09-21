@@ -1,0 +1,193 @@
+{% extends "../provider_base.html" %}
+
+{% block content %}
+    <script>
+        async function registerProvider(event) {
+            event.preventDefault();
+        
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const category = document.getElementById('category').value;
+        
+            const response = await fetch('http://127.0.0.1:8000/user/provider-request-register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    fullName: fullName,
+                    email: email,
+                    phone: phone,
+                    category: category,
+                }),
+            });
+        
+            const data = await response.json();
+        
+            if (response.ok) {
+                document.getElementById('registration-card').style.display = 'none';
+                document.getElementById('otp-card').style.display = 'block';
+            } else {
+                showAlert('error', data.error);
+            }
+        }
+        
+        async function verifyOtp(event) {
+            event.preventDefault();
+        
+            const otp = document.getElementById('otp').value;
+            const phone = document.getElementById('phone').value;
+        
+            const response = await fetch('http://127.0.0.1:8000/user/phone_verify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phone,
+                    code: otp,
+                }),
+            });
+        
+            const data = await response.json();
+        
+            if (response.ok) {
+                document.getElementById('otp-card').style.display = 'none';
+                document.getElementById('set-password-card').style.display = 'block';
+            } else {
+                showAlert('error', data.error);
+            }
+        }
+        
+        async function setPassword(event) {
+            event.preventDefault();
+        
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const password2 = document.getElementById('password2').value;
+        
+            if (password !== password2) {
+                showAlert('error', 'Passwords do not match');
+                return;
+            }
+        
+            const response = await fetch('http://127.0.0.1:8000/user/provider-create-account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phone,
+                    code: document.getElementById('otp').value,
+                    password: password,
+                }),
+            });
+        
+            const data = await response.json();
+        
+            if (response.ok) {
+                showAlert('success', 'Account created successfully!');
+                document.getElementById('next-button').style.display = 'block';
+            } else {
+                showAlert('error', data.error);
+            }
+        }
+        
+        function showAlert(type, message) {
+            const alertContainer = document.createElement('div');
+            alertContainer.classList.add('alert', `alert-${type}`, 'alert-dismissible', 'fade', 'show');
+            alertContainer.setAttribute('role', 'alert');
+        
+            const alertMessage = document.createElement('span');
+            alertMessage.textContent = message;
+        
+            const closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.classList.add('close');
+            closeButton.setAttribute('data-dismiss', 'alert');
+            closeButton.setAttribute('aria-label', 'Close');
+        
+            const closeIcon = document.createElement('span');
+            closeIcon.setAttribute('aria-hidden', 'true');
+            closeIcon.innerHTML = '&times;';
+        
+            closeButton.appendChild(closeIcon);
+            alertContainer.appendChild(alertMessage);
+            alertContainer.appendChild(closeButton);
+        
+            const container = document.querySelector('.container-fluid');
+            container.insertBefore(alertContainer, container.firstChild);
+        }
+    </script>
+    <div class="container-fluid  d-flex justify-content-center align-items-center text-warning">
+        <div class="card mt-4   content animate__animated animate__fadeInUp" id="registration-card">
+            <div class="card-header">
+                <h3 class="card-title">تسجيل مزود جديد</h3>
+            </div>
+            <div class="card-body text-right">
+                <form onsubmit="registerProvider(event)">
+                    <div class="form-group">
+                        <label for="fullName">السم الكامل</label>
+                        <input type="text" class="form-control" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">رقم الهاتف</label>
+                        <input type="text" class="form-control" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">التصنيف</label>
+                        <select class="form-control" id="category" required>
+                            {% for category in categories %}
+                            <option value="{{category.id}}">{{category.name}}</option>
+                            {% endfor %}
+                            
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card" id="otp-card" style="display: none;">
+            <div class="card-header">
+                <h1 class="card-title">تحقق من الرمز</h1>
+            </div>
+            <div class="card-body">
+                <form onsubmit="verifyOtp(event)">
+                    <div class="form-group">
+                        <label for="otp">Enter OTP</label>
+                        <input type="text" class="form-control" id="otp" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">تحقق</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card" id="set-password-card" style="display: none;">
+            <div class="card-header">
+                <h1 class="card-title">إنشاء كلمة مرور</h1>
+            </div>
+            <div class="card-body">
+                <form onsubmit="setPassword(event)">
+                    <div class="form-group">
+                        <label for="password">كلمة المرور</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password2">تأكيد كلمة المرور</label>
+                        <input type="password" class="form-control" id="password2" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">إنشاء الحساب</button>
+                </form>
+            </div>
+            <a id="next-button" href="{% url "provider-login" %}" class="btn btn-primary" style="display: none;">التالي</a>
+
+        </div>
+    </div>
+
+{% endblock content %}

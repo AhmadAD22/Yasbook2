@@ -1,0 +1,77 @@
+
+{% extends "basew.html" %}
+{% load static %}
+{% block contact %}active{% endblock contact %}
+ {% block title %}Contact{% endblock title %}
+ {% block content %}
+  
+    <!-- ======= srart Breadcrumbs ======= -->
+    <section class="breadcrumbs py-4" data-aos="fade-up" data-aos-delay="100" dir="rtl">
+        <div class="container">
+          <ol>
+            <li><a href="{% url "website.home" %}">الرئيسية</a></li>
+            <li> اتصل بنا </li>
+          </ol>
+          <h2 class="title text-center">اتصل بنا</h2>
+        </div>
+      </section><!-- End Breadcrumbs -->
+  <!-- ============== Start contact section ========== -->
+  <section class="container contact py-5" id="contact">
+    <div class="heading ">
+      <h4 class="pretitle" data-aos="fade-up">
+        اتصل بنا
+      </h4>
+      <h1 class="title col-12" data-aos="fade-up" data-aos-delay="100">
+        هل لديك استفسار او مشكلة؟ راسلنا
+      </h1>
+    </div>
+    <div class="row gx-4">
+      <div class="col-12 col-lg-6 gy-3">
+        <h2 class="title-2" data-aos="fade-right" data-aos-delay="200">
+          معلومات التواصل :
+        </h2>
+        <div class="info d-flex my-4" data-aos="fade-right" data-aos-delay="250">
+          <h5><i class="bi bi-envelope-fill mx-4"></i>yasafco@gmail.com</h5>
+        </div>
+        <div class="info d-flex my-4" data-aos="fade-up" data-aos-delay="300">
+          <h5><i class="bi bi-phone-fill mx-4"></i>+96650...</h5>
+        </div>
+        <!--<div class="info d-flex my-4 " data-aos="fade-up" data-aos-delay="350">
+          <h5><i class="bi bi-geo-alt-fill mx-4"></i>A108 Adam Street, New York, NY 535022</h5>
+        </div>-->
+        <div class="info d-flex my-4 " data-aos="fade-up" data-aos-delay="400">
+          <h5><i class="bi bi-instagram mx-4"></i>شركة يسافكو</h5>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <!--Form To have user messages-->
+        <form class="main-form" id="contact-us-form" action="" method="post">
+            
+          <div class="col-12">
+            <div class="row g-3 mb-1">
+              <div class="col-lg-6 col-12" data-aos="fade-right" data-aos-delay="200">
+                <input placeholder="الاسم" type="text" id="name" name="name" required class="text-input">
+              </div>
+              <div class="col-lg-6 col-12" data-aos="fade-left" data-aos-delay="200">
+                <input placeholder="الموضوع" type="text" id="subject" name="subject" required class="text-input">
+              </div>
+            </div>
+          </div>
+          <div class="col-12" data-aos-delay="250">
+            <input placeholder="الايميل" type="email" id="email" name="email" required class="text-input my-2">
+          </div>
+          <div class="col-12 " data-aos-delay="300">
+            <textarea placeholder="الرسالة" class="text-input my-2" rows="7" cols="30" id="message" name="message"
+              required></textarea>
+          </div>
+          <div class="col-12" data-aos-delay="350">
+            <button type="submit" value="Submit" class="btn">ارسال</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============== end contact section ========== -->
+  {% endblock content %}

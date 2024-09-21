@@ -1,0 +1,103 @@
+{% extends "../../provider_base.html" %}
+{% load static %}
+{% block breadcrumbt %}
+    <li class="breadcrumb-item "><a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+    <li class="breadcrumb-item active "><a class="text-primary" href="{% url "warehouse_report" %}"> Warehouse reports</a></li>
+{% endblock breadcrumbt %}
+{% block reports %}active{% endblock reports %}
+{% block warehouse_reports %}active{% endblock warehouse_reports %}
+
+{% block title %} تقرير المستودع {% endblock %}
+
+{% block content %}
+
+<div class="container my-5 text-right">
+    <h1 class="mb-4">تقرير المستودع</h1>
+  
+    <div class="mb-4">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="warehouse-start-date">تاريخ البدء</label>
+            <input type="date" class="form-control" id="warehouse-start-date">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="warehouse-end-date">تاريخ الانتهاء</label>
+            <input type="date" class="form-control" id="warehouse-end-date">
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+          <button class="btn btn-primary mt-4" id="warehouse-filter-btn">تصفية</button>
+        </div>
+      </div>
+    </div>
+  
+    <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+      <thead class="thead-dark">
+        <tr>
+          <th>رقم</th>
+          <th>المنتج</th>
+          <th>الكمية المتبقية</th>
+          <th>الكمية المحجوزة</th>
+        </tr>
+      </thead>
+      <tbody id="warehouse-table"></tbody>
+    </table>
+    <div class="d-flex justify-content-between mt-4">
+      <p id="total-remaining-quantity"></p>
+      <p id="total-reserved-quantity"></p>
+    </div>
+  </div>
+  
+  <script>
+    function fetchWarehouseData(startDate, endDate) {
+      let url = 'http://127.0.0.1:8000/store/warehouse-report/';
+      let queryParams = [];
+  
+      if (startDate && endDate) {
+        queryParams.push(`start_date=${startDate}&end_date=${endDate}`);
+      }
+  
+      if (queryParams.length > 0) {
+        url += '?' + queryParams.join('&');
+      }
+  
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const products = data.product;
+  
+          const tableBody = document.getElementById('warehouse-table');
+          tableBody.innerHTML = '';
+          products.forEach(product => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${product.id}</td>
+              <td>${product.name}</td>
+              <td>${product.remaining_quantity}</td>
+              <td>${product.reserved_quantity}</td>
+            `;
+            tableBody.appendChild(row);
+          });
+  
+          const totalRemainingQuantityElement = document.getElementById('total-remaining-quantity');
+          totalRemainingQuantityElement.textContent = `إجمالي الكمية المتبقية: ${data.total_remaining_quantity}`;
+  
+          const totalReservedQuantityElement = document.getElementById('total-reserved-quantity');
+          totalReservedQuantityElement.textContent = `إجمالي الكمية المحجوزة: ${data.total_reserved_quantity}`;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  
+    document.getElementById('warehouse-filter-btn').addEventListener('click', () => {
+      const startDate = document.getElementById('warehouse-start-date').value;
+      const endDate = document.getElementById('warehouse-end-date').value;
+      fetchWarehouseData(startDate, endDate);
+    });
+  
+    fetchWarehouseData();
+  </script>
+{% endblock %}

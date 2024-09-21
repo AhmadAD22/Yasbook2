@@ -1,0 +1,87 @@
+{% extends '../base.html' %}
+
+{% block title %} Provider Subscriptions {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block subscription %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card w-50">
+        <div class="card-body text-center">
+            <h5 class="card-title ">Provider Subscriptions</h5>
+    
+            <a href="{% url 'add_subscription' %}" class="btn btn-primary btn-md btn-icon">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+            </a>
+            
+        </div>
+    </div>
+</div>
+    <table class="table table-hover table-responsive-md text-center">
+        <thead>
+            <tr>
+                <th>Provider</th>
+                <th>Subscription Date</th>
+                <th>Duration</th>
+                <th>Is Finished</th>
+                <th>Action</th> <!-- New column for delete button -->
+                <!-- Add more headers here as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for subscription in subscriptions %}
+            <tr>
+                <td>{{ subscription.provider }}</td>
+                <td>{{ subscription.date }}</td>
+                <td>{{ subscription.duration.days }} days</td>
+                <td>{{ subscription.is_duration_finished }}</td>
+                <td>
+                    <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deletesubscriptionModal{{ subscription.id }}">
+                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                      </button>
+                    <a href="{% url 'edit_provider_subscription' subscription.id %}" class="btn btn-success btn-sm btn-icon">
+                        <i class="now-ui-icons ui-2_settings-90"></i>
+                    </a>
+                    <a href="{% url 'subscription_details' subscription.id %}" class="btn btn-primary btn-sm btn-icon">
+                        <i class="now-ui-icons files_single-copy-04"></i>
+                    </a>
+                </td>
+                <!-- Add more columns here as needed -->
+            </tr>
+                          <!-- Delete subscription Modal -->
+    <div class="modal fade" id="deletesubscriptionModal{{ subscription.id }}" tabindex="-1" role="dialog" aria-labelledby="deletesubscriptionModalLabel{{ subscription.id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deletesubscriptionModalLabel{{ subscription.id }}">Delete subscription </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>"Are you sure you want to delete the subscription for {{subscription.provider}}?"</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <form action="{% url 'delete_subscription' subscription.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Delete subscription Modal -->
+            {% endfor %}
+        </tbody>
+
+  
+
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}

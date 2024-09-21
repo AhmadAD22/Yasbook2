@@ -1,0 +1,50 @@
+{% extends 'provider_base.html' %}
+
+{% block title %}Create Store Opening{% endblock %}
+
+{% block css_style %}
+  {# Add any custom CSS styles here #}
+{% endblock %}
+
+{% block store %}active{% endblock store %}
+{% block store_openings %}active{% endblock %}
+
+{% block breadcrumbt %}
+  <li class="breadcrumb-item"><a class="text-light" href="{% url 'provider-main-dashboard' %}">Dashboard</a></li>
+  <li class="breadcrumb-item"><a class="text-light" href="{% url 'store_opening_list' %}">Store Openings</a></li>
+  <li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{% url 'store_opening_create' %}">Create</a></li>
+{% endblock breadcrumbt %}
+
+{% block content %}
+  <div class="d-flex justify-content-center">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title text-center text-primary">New Store Opening</h3>
+
+        <form method="post" class="text-right">
+          {% csrf_token %}
+
+          {% for field in form %}
+            <div class="form-group">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+                <div class="text-danger">
+                  {% for error in field.errors %}
+                    <span>{{ error }}</span><br>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js_script %}
+  {# Add any custom JavaScript code here #}
+{% endblock %}

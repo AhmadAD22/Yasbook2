@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %} Collect Products Money {% endblock %}
+
+{% block content %}
+<script>
+  function selectAllCheckboxes() {
+    var checkboxes = document.getElementsByName('collected_product_orders');
+    var selectAllCheckbox = document.getElementById('select-all-checkbox');
+    var isChecked = selectAllCheckbox.checked;
+    
+    for (var i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = isChecked;
+    }
+  }
+</script>
+<div class="d-flex justify-content-center align-items-center">
+  <div class="card w-50">
+      <div class="card-body text-center">
+          <h5 class="card-title ">Collect Products Money</h5>
+  
+          <h6 class="">Total Products: {{ total_products }}</h6>
+          <h6 class="">Total Quantity: {{ product_statistics.orders_counts }}</h6>
+          <h6 class="">Profit: {{ product_statistics.profit }}</h6>
+      </div>
+  </div>
+</div>
+
+<form method="post" action="{% url "collect_product_order" providersubscription.id %}">
+  {% csrf_token %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product Order</th>
+        <th>Customer</th>
+        <th>Quantity</th>
+        <th>Accept</th>
+        <th>Collected</th>
+        <th>Collecte</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product_order in product_orders %}
+        <tr>
+          <td>{{ product_order }}</td>
+          <td>{{ product_order.customer }}</td>
+          <td>{{ product_order.quantity }}</td>
+          <td>{{ product_order.accept }}</td>
+          <td>{{ product_order.collected }}</td>
+          <td>
+            <input type="checkbox" name="collected_product_orders" value="{{ product_order.id }}" {% if product_order.collected %}checked{% endif %}>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <label>
+    <input type="checkbox" id="select-all-checkbox" onclick="selectAllCheckboxes()"> Select All
+  </label>
+  <button type="submit" class="btn btn-primary">Update Collected Status</button>
+</form>
+
+{% endblock %}

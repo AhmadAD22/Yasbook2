@@ -1,0 +1,42 @@
+{% extends '../../provider_base.html' %}
+{% block title %} services {% endblock %}
+{% block services %}active{% endblock %}
+
+{% block breadcrumbt %}
+<li class="breadcrumb-item "><a a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+<li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{% url "provider-service_list" %}">services</a></li>
+{% endblock breadcrumbt %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center"> <h3 class="text-primary">الخدمات</h3> <a class="btn btn-primary m-2" href="{% url "provider-create_service" %}"> 
+    <i class="bi bi-plus-circle white-icon"></i></a> </div>
+     <table class="table table-responsive-sm table-striped table-dark table-hover text-white"> 
+    <thead class="text-center"> 
+        <tr> 
+            <th>#</th>
+             <th>اسم الخدمة</th>
+             <th>السعر</th> 
+             <th>الحسم</th> 
+             <th>الصورة</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+      {% for service in services %}
+        <tr class="clickable-row"  onclick="window.location.href='{% url 'provider-update_service' service.id %}'">
+          <td class="">{{ service.id }}</td>
+          <td class="">{{ service.name }}</td>
+          <td>{{ service.price }}</td>
+          <td>{{ service.offers }}</td>
+          <td>
+            {% if service.image %}
+              <img src="{{ service.image.url }}" alt="service Image" width="100" height="100" class="img-thumbnail small-image">
+            {% else %}
+              No image available
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,34 @@
+
+{% extends '../../base.html' %}
+
+{% block title %} update Admin {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block admins %}active{% endblock %}
+
+{% block content %}
+
+    <div class=" d-flex justify-content-center align-items-center">
+        <div class="card w-50">
+            <div class="card-body">
+                <h3 class="text-center main-color-text">Update Admin</h3>
+                <form method="post">
+                    <div class="form-group">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    </div> 
+                </form>
+            </div>
+        </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}

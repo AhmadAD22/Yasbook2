@@ -1,0 +1,27 @@
+{% extends "../../provider_base.html" %}
+{% load static %}
+
+{% block title %} Send Otp {% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center text-warning">
+  <div class="card mt-4 w-50   content animate__animated animate__fadeInUp">
+    <div class="card-body text-right">
+      <h3 class="card-title text-center text-primary">تحقق</h3>
+     <p class="text-danger"> {{error}}</p>
+      <form method="post" action="{% url "provider_verify_otp" phone %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="phone" class="form-label">رمز التأكيد</label>
+            <input type="text" id="otp" name="otp" class="form-control" required>
+          </div>
+        <button type="submit" class="btn  btn-outline-primary">تحقق</button>
+        <a id="next-button" href="{% url "provider-login" %}" class="btn btn-secondary">إلغاء</a>
+
+        
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

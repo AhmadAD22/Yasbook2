@@ -1,0 +1,79 @@
+{% extends '../../base.html' %}
+
+{% block title %} Providers {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block providers %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card w-50">
+        <div class="card-body text-center">
+            <h5 class="card-title ">Providers</h5>
+    
+            <a href="{% url 'add_provider' %}" class="btn btn-primary btn-md btn-icon">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+            </a>
+            
+        </div>
+    </div>
+</div>
+    <table class="table table-hover table-responsive-md text-center">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for provider in providers %}
+            <tr>
+                <td>{{ provider.username }}</td>
+                <td>{{ provider.name }}</td>
+                <td>{{ provider.category.name }}</td>
+                <td>{{ provider.email }}</td>
+                <td>
+                    <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteproviderModal{{ provider.id }}">
+                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                      </button>
+                    <a href="{% url 'update_provider' provider.id %}" class="btn btn-success btn-sm btn-icon">
+                        <i class="now-ui-icons ui-2_settings-90"></i>
+                    </a>
+                </td>
+            </tr>
+                     <!-- Delete provider Modal -->
+    <div class="modal fade" id="deleteproviderModal{{ provider.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteproviderModalLabel{{ provider.id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteproviderModalLabel{{ provider.id }}">Delete provider </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>"Are you sure you want to delete the provider {{provider.name}}?"</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <form action="{% url 'delete_provider' provider.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}
+

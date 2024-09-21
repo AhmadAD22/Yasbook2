@@ -1,0 +1,142 @@
+{% extends "../../provider_base.html" %}
+{% load static %}
+{% block orders %}active{% endblock %}
+{% block service_order %}active{% endblock service_order %}
+{% block breadcrumbt %}
+    <li class="breadcrumb-item "><a a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{% url "provider-service-orders" %}">service orders</a></li>
+{% endblock breadcrumbt %}
+{% block content %}
+<div class="container my-5 text-center">
+  <h4 class="text-crnter">حجوزات الخدمات</h4>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="new-orders-tab" data-toggle="tab" href="#new-orders" role="tab" aria-controls="new-orders" aria-selected="true">حجوزات جديدة</a>
+      </li>
+      <li class="nav-item" role="presentation">
+          <a class="nav-link" id="accepted-orders-tab" data-toggle="tab" href="#accepted-orders" role="tab" aria-controls="accepted-orders" aria-selected="false">حجوزات جارية</a>
+      </li>
+      <li class="nav-item" role="presentation">
+          <a class="nav-link" id="canceled-orders-tab" data-toggle="tab" href="#canceled-orders" role="tab" aria-controls="canceled-orders" aria-selected="false">حجوزات ملغية</a>
+      </li>
+      <li class="nav-item" role="presentation">
+          <a class="nav-link" id="rejected-orders-tab" data-toggle="tab" href="#rejected-orders" role="tab" aria-controls="rejected-orders" aria-selected="false">حجوزات مرفوضة</a>
+      </li>
+      <li class="nav-item" role="presentation">
+          <a class="nav-link" id="completed-orders-tab" data-toggle="tab" href="#completed-orders" role="tab" aria-controls="completed-orders" aria-selected="false">حجوزات مكتملة</a>
+      </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="new-orders" role="tabpanel" aria-labelledby="new-orders-tab">
+          <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+              <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Service</th>
+                      <th>وقت البداية</th>
+                  <th>تاريخ البداية</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for order in new_orders %}
+                  <tr class="clickable-row"  onclick="window.location.href='{% url "provider-service-orders-details" order.id %}'">
+                      <td>{{ order.id }}</td>
+                      <td>{{ order.service.name }}</td>
+                      <td>{{ order.time_start|time:'H:i:s' }}</td>
+                      <td>{{ order.date|date:'Y-m-d' }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+      <div class="tab-pane fade" id="accepted-orders" role="tabpanel" aria-labelledby="accepted-orders-tab">
+        <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+          <thead>
+              <tr>
+                  <th>#</th>
+                  <th>الخدمة</th>
+                  <th>وقت البداية</th>
+                  <th>تاريخ البداية</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for order in accepted_orders %}
+              <tr class="clickable-row"  onclick="window.location.href='{% url "provider-service-orders-details" order.id %}'">
+                <td>{{ order.id }}</td>
+                  <td>{{ order.service.name }}</td>
+                  <td>{{ order.time_start|time:'H:i:s' }}</td>
+                  <td>{{ order.date|date:'Y-m-d' }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      </div>
+      <div class="tab-pane fade" id="canceled-orders" role="tabpanel" aria-labelledby="canceled-orders-tab">
+        <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+          <thead>
+              <tr>
+                  <th>#</th>
+                  <th>الخدمة</th>
+                  <th>وقت البداية</th>
+                  <th>تاريخ البداية</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for order in canceled_orders %}
+              <tr class="clickable-row"  onclick="window.location.href='{% url "provider-service-orders-details" order.id %}'">
+                <td>{{ order.id }}</td>
+                  <td>{{ order.service.name }}</td>
+                  <td>{{ order.time_start|time:'H:i:s' }}</td>
+                  <td>{{ order.date|date:'Y-m-d' }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      </div>
+      <div class="tab-pane fade" id="rejected-orders" role="tabpanel" aria-labelledby="rejected-orders-tab">
+        <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+          <thead>
+              <tr>
+                  <th>#</th>
+                  <th>الخدمة</th>
+                  <th>وقت البداية</th>
+                  <th>تاريخ البداية</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for order in rejected_orders %}
+              <tr class="clickable-row"  onclick="window.location.href='{% url "provider-service-orders-details" order.id %}'">
+                <td>{{ order.id }}</td>
+                  <td>{{ order.service.name }}</td>
+                  <td>{{ order.time_start|time:'H:i:s' }}</td>
+                  <td>{{ order.date|date:'Y-m-d' }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      </div>
+      <div class="tab-pane fade" id="completed-orders" role="tabpanel" aria-labelledby="completed-orders-tab">
+        <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+          <thead>
+              <tr>
+                  <th>#</th>
+                  <th>الخدمة</th>
+                  <th>وقت البداية</th>
+                  <th>تاريخ البداية</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for order in complated_orders %}
+              <tr class="clickable-row"  onclick="window.location.href='{% url "provider-service-orders-details" order.id %}'">
+                <td>{{ order.id }}</td>
+                  <td>{{ order.service.name }}</td>
+                  <td>{{ order.time_start|time:'H:i:s' }}</td>
+                  <td>{{ order.date|date:'Y-m-d' }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      </div>
+  </div>
+</div>
+{% endblock %}

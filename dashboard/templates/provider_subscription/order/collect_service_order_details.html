@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %} Collect services Money {% endblock %}
+{% block subscription %}active{% endblock %}
+
+{% block content %}
+<script>
+  function selectAllCheckboxes() {
+    var checkboxes = document.getElementsByName('collected_service_orders');
+    var selectAllCheckbox = document.getElementById('select-all-checkbox');
+    var isChecked = selectAllCheckbox.checked;
+    
+    for (var i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = isChecked;
+    }
+  }
+</script>
+<div class="d-flex justify-content-center align-items-center">
+  <div class="card w-50">
+      <div class="card-body text-center">
+          <h5 class="card-title ">Collect services Money</h5>
+  
+          <h6 class="">Total services: {{ total_services }}</h6>
+          <h6 class="">Total Quantity: {{ service_statistics.orders_counts }}</h6>
+          <h6 class="">Profit: {{ service_statistics.profit }}</h6>
+      </div>
+  </div>
+</div>
+
+<form method="post" action="{% url "collect_service_order" providersubscription.id %}">
+  {% csrf_token %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Service Order</th>
+            <th>Customer</th>
+            <th>Specialist</th>
+            <th>Date</th>
+            <th>Duration</th>
+            <th>Accept</th>
+            <th>Collected</th>
+        <th>Collecte</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for service_order in service_orders %}
+        <tr>
+            <td>{{ service_order }}</td>
+            <td>{{ service_order.customer }}</td>
+            <td>{{ service_order.specialist.name }}</td>
+            <td>{{ service_order.date }}</td>
+            <td>{{ service_order.duration }}</td>
+            <td>{{ service_order.accept }}</td>
+            <td>{{ service_order.collected }}</td>
+          <td>
+            <input type="checkbox" name="collected_service_orders" value="{{ service_order.id }}" {% if service_order.collected %}checked{% endif %}>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <label>
+    <input type="checkbox" id="select-all-checkbox" onclick="selectAllCheckboxes()"> Select All
+  </label>
+  <button type="submit" class="btn btn-primary">Update Collected Status</button>
+</form>
+
+{% endblock %}

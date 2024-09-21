@@ -1,0 +1,107 @@
+{% extends '../base.html' %}
+
+{% block title %} Edit Provider Subscription {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block promotion %}active{% endblock %}
+
+{% block content %}
+
+<div class=" d-flex justify-content-center align-items-center">
+    <div class="card w-50">
+        <div class="card-body">
+            <h3 class="text-center main-color-text">Edit Promotion Subscriptions</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.promotion_date.id_for_label }}">{{ form.promotion_date.label }}</label>
+                    {{ form.promotion_date }}
+                    {% if form.promotion_date.errors %}
+                        <div class="text-danger">
+                            {% for error in form.promotion_date.errors %}
+                                <span>{{ error }}</span><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.provider.id_for_label }}">{{ form.provider.label }}</label>
+                    {{ form.provider }}
+                    {% if form.provider.errors %}
+                        <div class="text-danger">
+                            {% for error in form.provider.errors %}
+                                <span>{{ error }}</span><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.promotion_duration_days.id_for_label }}">{{ form.promotion_duration_days.label }}</label>
+                    {{ form.promotion_duration_days }}
+                    {% if form.promotion_duration_days.errors %}
+                        <div class="text-danger">
+                            {% for error in form.promotion_duration_days.errors %}
+                                <span>{{ error }}</span><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.profit.id_for_label }}">{{ form.profit.label }}</label>
+                    {{ form.profit }}
+                    {% if form.profit.errors %}
+                        <div class="text-danger">
+                            {% for error in form.profit.errors %}
+                                <span>{{ error }}</span><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                    <div class="form-group">
+                        <label class="btn btn-primary" for="id_image">upload Image :</label>
+        
+                            {{ form.image }}     
+                            
+                        </div>
+                        <span class="text1"></span>
+                        {% if form.image.value %}
+                        <img id="uploaded-image" src="{{ form.image.value.url }}"  width="100" alt="Uploaded Image" style="display: block;">
+                        {% else %}
+                        <img id="uploaded-image" src=""  width="100" alt="Uploaded Image" style="display: none;">
+                        {% endif %}
+                        {% if form.image.errors %}
+                            <div class="text-danger">
+                                {% for error in form.image.errors %}
+                                <span>{{ error }}</span><br>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+    
+                <button class="btn btn-primary" type="submit">Save</button>
+                
+            </form>
+        </div>
+    </div>
+    <script>
+        const fileInput = document.getElementById("id_image");
+        fileInput.addEventListener("change", function() {
+          const fileName = this.files[0].name;
+          const button = document.querySelector(".text1");
+          button.innerHTML = fileName ;
+          const uploadedImage = document.getElementById("uploaded-image");
+          uploadedImage.src = URL.createObjectURL(this.files[0]);
+          uploadedImage.style.display = "block";
+        });
+      </script>
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}

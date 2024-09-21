@@ -1,0 +1,75 @@
+{% extends 'provider_base.html' %}
+
+{% block title %}Update Store Opening{% endblock %}
+
+{% block css_style %}
+  {# Add any custom CSS styles here #}
+{% endblock %}
+
+{% block store %}active{% endblock store %}
+{% block store_openings %}active{% endblock %}
+
+{% block breadcrumbt %}
+  <li class="breadcrumb-item"><a class="text-light" href="{% url 'provider-main-dashboard' %}">Dashboard</a></li>
+  <li class="breadcrumb-item"><a class="text-light" href="{% url 'store_opening_list' %}">Store Openings</a></li>
+  <li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{% url 'store_opening_edit' store_opening.id %}">Update</a></li>
+{% endblock breadcrumbt %}
+
+{% block content %}
+  <div class="d-flex justify-content-center">
+    <div class="card">
+      <div class="card-body w-100">
+        <h3 class="card-title text-center text-primary">Update Store Opening</h3>
+        <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-toggle="modal" data-target="#deleteQuestionModal{{store_opening.id}}">
+            <i class="bi bi-x-octagon white-icon"></i>
+          </button>
+
+        <form method="post" class="text-right">
+          {% csrf_token %}
+
+          {% for field in form %}
+            <div class="form-group">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+                <div class="text-danger">
+                  {% for error in field.errors %}
+                    <span>{{ error }}</span><br>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+        <!-- Delete form Modal -->
+       <div class="modal fade" id="deleteQuestionModal{{store_opening.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteQuestionModalLabel{{store_opening.id}}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content text-dark">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteQuestionModalLabel{{store_opening.id}}">حذف السؤال "{{store_opening.id}}"</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>هل أنت متأكد من حذف الوقت "{{store_opening.id}}"</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+              <a class="btn btn-danger" href="{% url 'store_opening_delete' store_opening.id  %}">حذف</a>
+              
+            </div>
+          </div>  
+        </div>
+      </div>
+      <!-- End Delete Question Modal -->
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js_script %}
+  {# Add any custom JavaScript code here #}
+{% endblock %}

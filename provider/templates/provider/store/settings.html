@@ -1,0 +1,116 @@
+{% extends '../../provider_base.html' %}
+
+{% block title %} Settings {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block breadcrumbt %}
+    <li class="breadcrumb-item "><a a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a class="text-primary" href="{% url "store_update-settings" %}">Settings</a></li>
+    
+{% endblock breadcrumbt %}
+{% block settings %}active{% endblock %}
+{% block store %}active{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title text-center text-primary">{{ form.name.value }}</h3>
+
+      <form method="post" enctype="multipart/form-data" class="text-right">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="id_name">اسم المتجر</label>
+          {{ form.name }}
+          {% if form.name.errors %}
+            <div class="text-danger">
+              {% for error in form.name.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="id_name">اسم المتجر بالإنكليزية</label>
+          {{ form.en_name }}
+          {% if form.en_name.errors %}
+            <div class="text-danger">
+              {% for error in form.en_name.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group  ">
+          <label for="id_name">صورة المتجر</label>
+          <div class="input-group">
+            <div class="input-group-append m-2">
+              {{ form.image }}
+            </div>
+          </div>
+          {% if form.image.value %}
+          <img id="uploaded-image" src="{{ form.image.value.url }}" alt="Uploaded Image" width="100" style="display: block;">
+          {% else %}
+          <img id="uploaded-image" src="" alt="Uploaded Image" width="100" style="display: none;">
+          {% endif %}
+
+          {% if form.image.errors %}
+            <div class="text-danger">
+              {% for error in form.image.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_about">الوصف</label>
+          {{ form.about }}
+          {% if form.about.errors %}
+            <div class="text-danger">
+              {% for error in form.about.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_whatsapp_link">رابط واتس أب</label>
+          {{ form.whatsapp_link }}
+          {% if form.whatsapp_link.errors %}
+            <div class="text-danger">
+              {% for error in form.whatsapp_link.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">تعديل</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+  
+
+{% endblock %}
+
+{% block js_script %}
+<script>
+    const fileInput = document.getElementById("id_image");
+    fileInput.addEventListener("change", function() {
+      const fileName = this.files[0].name;
+      const button = document.querySelector(".text1");
+      button.innerHTML = fileName;
+      const uploadedImage = document.getElementById("uploaded-image");
+      uploadedImage.src = URL.createObjectURL(this.files[0]);
+      uploadedImage.style.display = "block";
+    });
+  
+  </script>
+{% endblock %}

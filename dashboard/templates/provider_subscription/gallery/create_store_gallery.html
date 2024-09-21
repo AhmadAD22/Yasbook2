@@ -1,0 +1,64 @@
+{% extends '../../base.html' %}
+
+{% block title %} Add Image {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block subscription %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="card w-100" >
+      <div class="card-body ">
+        <h2 class="card-title text-center">Add Image</h2>
+  
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+  
+  
+          <div class="form-group ">
+            <label class="btn btn-primary" for="id_image">upload Image</label>
+            <div class="input-group">
+              <div class="input-group-append">
+                {{ form.image }}
+              </div>
+              <span class="text1"></span>
+            </div>
+            <img id="uploaded-image" src="" alt="Uploaded Image" width="100" style="display: none;">
+
+            {% if form.image.errors %}
+              <div class="text-danger">
+                {% for error in form.image.errors %}
+                  <span>{{ error }}</span><br>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div> 
+  
+          <button type="submit" class="btn btn-primary">إضافة</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+ 
+  
+  <script>
+    const fileInput = document.getElementById("id_image");
+    
+    fileInput.addEventListener("change", function() {
+      const fileName = this.files[0].name;
+      const button = document.querySelector(".text1");
+      button.innerHTML = fileName;
+      
+      const uploadedImage = document.getElementById("uploaded-image");
+      uploadedImage.src = URL.createObjectURL(this.files[0]);
+      uploadedImage.style.display = "block";
+    });
+  </script>
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}

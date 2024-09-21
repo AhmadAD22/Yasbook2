@@ -1,0 +1,58 @@
+{% extends '../../provider_base.html' %}
+
+{% block title %}  New Question {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block store %}active{% endblock store %}
+{% block commonquestions %}active{% endblock %}
+{% block breadcrumbt %}
+    <li class="breadcrumb-item "><a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a class="text-light" href="{% url "common_question_list" %}">Common Questions</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{% url "common_question_create" %}">Create New</a></li>
+{% endblock breadcrumbt %}
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title text-center text-primary"> سؤال جديد</h3>
+
+      <form method="post" enctype="multipart/form-data" class="text-right">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="id_question">Question</label>
+          {{ form.question }}
+          {% if form.question.errors %}
+            <div class="text-danger">
+              {% for error in form.question.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_answer">Answer</label>
+          {{ form.answer }}
+          {% if form.answer.errors %}
+            <div class="text-danger">
+              {% for error in form.answer.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        
+        <button type="submit" class="btn btn-primary">Create</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}

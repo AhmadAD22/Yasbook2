@@ -1,0 +1,114 @@
+{% extends "../../provider_base.html" %}
+{% load static %}
+{% block breadcrumbt %}
+    <li class="breadcrumb-item "><a class="text-light" href="{% url "provider-main-dashboard" %}"> Dashboard</a></li>
+    <li class="breadcrumb-item active "><a class="text-primary" href="{% url "product_order_report" %}"> Product Reports</a></li>
+{% endblock breadcrumbt %}
+{% block reports %}active{% endblock reports %}
+{% block product_reports %}active{% endblock product_reports %}
+
+{% block title %} تقرير المنتجات {% endblock %}
+
+{% block content %}
+
+<div class="container my-5 text-right">
+    <h1 class="mb-4">تقرير طلبات المنتجات</h1>
+  
+    <div class="mb-4">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="product-start-date">تاريخ البدء</label>
+            <input type="date" class="form-control" id="product-start-date">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="product-end-date">تاريخ الانتهاء</label>
+            <input type="date" class="form-control" id="product-end-date">
+          </div>
+        </div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-primary" id="product-filter-btn">تصفية</button>
+        </div>
+      </div>
+    </div>
+  
+    <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+      <thead class="thead-dark">
+        <tr>
+          <th>رقم</th>
+          <th>العميل</th>
+          <th>المنتج</th>
+          <th>الكمية</th>
+          <th>سعر المنتج</th>
+          <th>الحالة</th>
+          <th>تم التحصيل</th>
+          <th>التاريخ</th>
+          <th>رسوم التطبيق</th>
+        </tr>
+      </thead>
+      <tbody id="product-orders-table"></tbody>
+    </table>
+    <div class="d-flex justify-content-between mt-4">
+      <p id="total-app-fee"></p>
+      <p id="total-product-price"></p>
+    </div>
+  </div>
+  
+  <script>
+    function fetchProductOrdersData(startDate, endDate) {
+      let url = 'http://127.0.0.1:8000/store/product-orders-report/';
+      let queryParams = [];
+  
+      if (startDate && endDate) {
+        queryParams.push(`start_date=${startDate}&end_date=${endDate}`);
+      }
+  
+      if (queryParams.length > 0) {
+        url += '?' + queryParams.join('&');
+      }
+  
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const productOrders = data.product_orders;
+  
+          const tableBody = document.getElementById('product-orders-table');
+          tableBody.innerHTML = '';
+          productOrders.forEach(order => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${order.id}</td>
+              <td>${order.customer}</td>
+              <td>${order.product}</td>
+              <td>${order.quantity}</td>
+              <td>${order.product_price.toFixed(2)}</td>
+              <td>${order.status}</td>
+              <td>${order.collected ? 'نعم' : 'لا'}</td>
+              <td>${new Date(order.date).toLocaleString()}</td>
+              <td>${order.app_fees.toFixed(2)}</td>
+            `;
+            tableBody.appendChild(row);
+          });
+  
+          const totalAppFeeElement = document.getElementById('total-app-fee');
+          totalAppFeeElement.textContent = `إجمالي رسوم التطبيق: ${data.total_app_fee.toFixed(2)}`;
+  
+          const totalProductPriceElement = document.getElementById('total-product-price');
+          totalProductPriceElement.textContent = `إجمالي سعر المنتج: ${data.total_product_price.toFixed(2)}`;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  
+    document.getElementById('product-filter-btn').addEventListener('click', () => {
+      const startDate = document.getElementById('product-start-date').value;
+      const endDate = document.getElementById('product-end-date').value;
+      fetchProductOrdersData(startDate, endDate);
+    });
+  
+    fetchProductOrdersData();
+  </script>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends '../base.html' %}
+
+{% block title %} Edit Provider Details {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block provider_details %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="card w-100" dir="rtl">
+      <div class="card-body text-right">
+        <h2 class="card-title text-center">Edit Provider Details  </h2>
+  
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+  
+          <div class="form-group text-right">
+            <label for="{{ form.provider.id_for_label }}">{{ form.provider.label }}</label>
+            {{ form.provider }}
+            {% if form.provider.errors %}
+              <div class="text-danger">
+                {% for error in form.provider.errors %}
+                  <span>{{ error }}</span><br>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+  
+          <div class="form-group text-right">
+            <label class="btn btn-primary " for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+            {{ form.image }}
+            <span class="text1 text-dark"></span>
+            {% if store.image %}
+          <img id="uploaded-image" src="{{store.image.url}}" alt="Uploaded Image" width="100" style="display: block;">
+          {% else %}
+          <img id="uploaded-image" src="" alt="Uploaded Image" width="100" style="display: none;">
+          {% endif %}
+            {% if form.image.errors %}
+              <div class="text-danger">
+                {% for error in form.image.errors %}
+                  <span>{{ error }}</span><br>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="form-group text-right">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+              <div class="text-danger">
+                {% for error in form.name.errors %}
+                  <span>{{ error }}</span><br>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+          <div class="form-group">
+            <label for="id_name">الإسم بالإنكليزية</label>
+            {{ form.en_name }}
+            {% if form.en_name.errors %}
+              <div class="text-danger">
+                {% for error in form.en_name.errors %}
+                  <span>{{ error }}</span><br>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+  
+          <div class="form-group text-right">
+            <label for="{{ form.about.id_for_label }}">{{ form.about.label }}</label>
+            {{ form.about }}
+            {% if form.about.errors %}
+              <div class="text-danger">
+                {% for error in form.about.errors %}
+                  <span>{{ error }}</span><br>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+  
+          <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const fileInput = document.getElementById("id_image");
+    fileInput.addEventListener("change", function() {
+      const fileName = this.files[0].name;
+      const button = document.querySelector(".text1");
+      button.innerHTML = fileName ;
+      const uploadedImage = document.getElementById("uploaded-image");
+      uploadedImage.src = URL.createObjectURL(this.files[0]);
+      uploadedImage.style.display = "block";
+    });
+  
+  </script>
+
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}

@@ -1,0 +1,187 @@
+{% extends '../../provider_base.html' %}
+
+{% block title %} Update Service {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block breadcrumbt %}
+    <li class="breadcrumb-item "><a a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a class="text-light" href="{% url "provider-service_list" %}">Services</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{% url 'provider-update_service' service.id %}">{{ form.name.value }}</a></li>
+{% endblock breadcrumbt %}
+{% block services %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title text-center text-primary">{{ form.name.value }}</h3>
+            <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-toggle="modal" data-target="#deleteserviceModal{{service.id}}">
+                <i class="bi bi-x-octagon white-icon"></i>
+              </button>
+
+      <form method="post" enctype="multipart/form-data" class="text-right">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="id_name">اسم الخدمة</label>
+          {{ form.name }}
+          {% if form.name.errors %}
+            <div class="text-danger">
+              {% for error in form.name.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="id_name">اسم الخدمة بالإنكليزية</label>
+          {{ form.en_name }}
+          {% if form.en_name.errors %}
+            <div class="text-danger">
+              {% for error in form.en_name.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group  ">
+          <div class="input-group">
+            <div class="input-group-append m-2">
+              {{ form.image }}
+            </div>
+          </div>
+          {% if form.image.value %}
+          <img id="uploaded-image" src="{{form.image.value.url}}" alt="Uploaded Image" width="100" style="display: block;">
+          {% else %}
+          <img id="uploaded-image" src="" alt="Uploaded Image" width="100" style="display: none;">
+          {% endif %}
+
+          {% if form.image.errors %}
+            <div class="text-danger">
+              {% for error in form.image.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+        <div class="form-group">
+          <label for="id_description">الوصف</label>
+          {{ form.description }}
+          {% if form.description.errors %}
+            <div class="text-danger">
+              {% for error in form.description.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_price">السعر</label>
+          {{ form.price }}
+          {% if form.price.errors %}
+            <div class="text-danger">
+              {% for error in form.price.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_offers">الخصم</label>
+          {{ form.offers }}
+          {% if form.offers.errors %}
+            <div class="text-danger">
+              {% for error in form.offers.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_duration">المدة</label>
+          {{ form.duration }}
+          {% if form.duration.errors %}
+            <div class="text-danger">
+              {% for error in form.duration.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_main_service">الخدمة الرئيسية</label>
+          {{ form.main_service }}
+          {% if form.main_service.errors %}
+            <div class="text-danger">
+              {% for error in form.main_service.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_specialists">المتخصصون</label>
+          {{ form.specialists }}
+          {% if form.specialists.errors %}
+            <div class="text-danger">
+              {% for error in form.specialists.errors %}
+                <span>{{ error }}</span><br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">تعديل</button>
+        <!-- Delete form Modal -->
+        <div class="modal fade" id="deleteserviceModal{{service.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteserviceModalLabel{{service.id}}" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content text-dark">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteserviceModalLabel{{service.id}}">حذف {{service.name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>هل أنت متأكد من حذف "{{service.name}}"</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                <a class="btn btn-danger" href="{% url 'provider-delete_service' service.id  %}">حذف</a>
+                
+              </div>
+            </div>  
+          </div>
+        </div>
+        <!-- End Delete service Modal -->
+      </form>
+    </div>
+  </div>
+</div>
+
+  
+  <script>
+    const fileInput = document.getElementById("id_image");
+    fileInput.addEventListener("change", function() {
+      const fileName = this.files[0].name;
+      const button = document.querySelector(".text1");
+      button.innerHTML = fileName ;
+      const uploadedImage = document.getElementById("uploaded-image");
+      uploadedImage.src = URL.createObjectURL(this.files[0]);
+      uploadedImage.style.display = "block";
+    });
+  
+  </script>
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}

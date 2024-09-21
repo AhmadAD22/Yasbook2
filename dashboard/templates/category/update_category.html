@@ -1,0 +1,86 @@
+{% extends '../base.html' %}
+
+{% block title %} Update Category {% endblock %}
+
+{% block css_style %}
+
+{% endblock %}
+{% block categories %} 
+active
+{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-center">
+    <div class="card w-50">
+        <div class="card-body">
+            <h2 class="card-title text-center">Update Category </h2>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="id_name">Category Name :</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="text-danger">
+                            {% for error in form.name.errors %}
+                            <span>{{ error }}</span><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_name">English name</label>
+                    {{ form.en_name }}
+                    {% if form.en_name.errors %}
+                      <div class="text-danger">
+                        {% for error in form.en_name.errors %}
+                          <span>{{ error }}</span><br>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+
+                <div class="form-group">
+                    <label class="btn btn-primary" for="id_image">upload Image :</label>
+    
+                        {{ form.image }}     
+
+
+                        
+                    </div>
+                    <span class="text1"></span>
+                    <img id="uploaded-image" src="{{ form.image.value.url }}"  width="100" alt="Uploaded Image" style="display: block;">
+                    {% if form.image.errors %}
+                        <div class="text-danger">
+                            {% for error in form.image.errors %}
+                            <span>{{ error }}</span><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    const fileInput = document.getElementById("id_image");
+    fileInput.addEventListener("change", function() {
+      const fileName = this.files[0].name;
+      const button = document.querySelector(".text1");
+      button.innerHTML = fileName ;
+      const uploadedImage = document.getElementById("uploaded-image");
+      uploadedImage.src = URL.createObjectURL(this.files[0]);
+      uploadedImage.style.display = "block";
+    });
+  </script>
+{% endblock %}
+
+{% block js_script %}
+
+{% endblock %}

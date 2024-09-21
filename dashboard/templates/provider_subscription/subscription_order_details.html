@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="text-center main-color-text">Products</h3>
+
+<form method="get" action="{% url 'subscription_order_details' providersubscription.id %}">
+    <label for="product_filter">Filter Product Orders:</label>
+    <input type="checkbox" name="product_filter" id="product_filter" value="accepted">
+    <label for="product_filter">Accepted Orders</label>
+    <button type="submit">Apply Filter</button>
+  </form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Order</th>
+            <th>Customer</th>
+            <th>Quantity</th>
+            <th>Accept</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product_order in product_orders %}
+            <tr>
+                <td>{{ product_order }}</td>
+                <td>{{ product_order.customer }}</td>
+                <td>{{ product_order.quantity }}</td>
+                <td>{{ product_order.accept }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3 class="text-center main-color-text">Services</h3>
+
+<form method="get" action="{% url 'subscription_order_details' providersubscription.id %}">
+    <label for="service_filter">Filter Service Orders:</label>
+    <input type="checkbox" name="service_filter" id="service_filter" value="accepted">
+    <label for="service_filter">Accepted Orders</label>
+    <button type="submit">Apply Filter</button>
+  </form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Service Order</th>
+            <th>Customer</th>
+            <th>Specialist</th>
+            <th>Date</th>
+            <th>Duration</th>
+            <th>Accept</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for service_order in service_orders %}
+            <tr>
+                <td>{{ service_order }}</td>
+                <td>{{ service_order.customer }}</td>
+                <td>{{ service_order.specialist.name }}</td>
+                <td>{{ service_order.date }}</td>
+                <td>{{ service_order.duration }}</td>
+                <td>{{ service_order.accept }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

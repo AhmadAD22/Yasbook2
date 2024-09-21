@@ -1,0 +1,220 @@
+{% extends "basew.html" %}
+{% load static %}
+ {% block title %}YasBook{% endblock title %}
+ {% block button %} <a class="btn" href="#">حمل التطبيق</a>{% endblock button %}
+ {% block works %}active{% endblock works %}
+ {% block content %}
+ 
+ <!-- ============== Start Hero section ========== -->
+ <section class="hero  d-flex align-items-center justify-content-center" id="hero">
+  <div id="particles-js"></div>
+  <div class="container">
+    <div class="row flex-row-reverse align-items-center">
+      <div class="col-12 col-lg-5 mt-lg-5">
+        <div class="hero-text text-end mt-lg-5">
+          <div class="row">
+            <div class="col-12 ">
+              <h1 class="title col-12 text-end" data-aos="fade-up" data-aos-delay="150"> 
+                  <span class="unique-text"> Yasbook </span>
+                </h1>
+              <h1 class="title col-12 text-end" data-aos="fade-up" data-aos-delay="150"> 
+              معك خطوة بخطوة</h1>
+            </div>
+            <div class="col-12 text-end">
+              <p class="text-end" data-aos="fade-up" data-aos-delay="200">نقدم لكم إمكانية  الحجز ومتابعة المواعيد  في  مجموعة
+                 متنوعة من  مراكز تقديم الخدمات والتي تضم
+                  أفضل الصالونات و مراكز التجميل،أحدث النوادي الرياضية ومراكز المساج،وفر وقتك وتمتع من خلال تحميل تطبيقنا
+              </p>
+            </div>
+            <div class="col-12 text-end" data-aos="fade-up" data-aos-delay="250">
+              <a href="#" class="btn">حمل التطبيق</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-7 mx-md-auto text-center mb-lg-5" data-aos="fade-right" data-aos-delay="100">
+        <div class="hero-image">
+          <div class="hero-img">
+            <img class="img-fluid " alt="hero-img"
+              src="{% static "website/images/hero/hero2.png"%} ">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============== End Hero section ========== -->
+
+  
+
+<!-- ============== Start clients section ========== -->
+<h1 class="title text-center unique-text" data-aos="fade-up" data-aos-delay="150"> 
+   المزودين
+</h1>
+<div class="clients py-lg-5 py-2" data-aos="fade-up" data-aos-delay="100">
+  <div class="container">
+    <div class="row">
+      <div class="owl-carousel client owl-theme">
+        {% for store in stores %}
+        
+        {% if store.image %}
+        <div class="item text-center">
+          {{store.name}}
+          <img src="{{store.image.url}}" alt="Provider-logo" height="100">
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============== End clients section ========== -->
+<!-- ============== Start About section ========== -->
+<section class="about py-5 mt-5" id="about">
+  <div class="container">
+    <div class="row flex-row-reverse mt-5 justify-content-center align-items-center">
+      <div class="col-12 heading col-lg-6 ">
+        <h2 class="unique-text" data-aos="fade-up" data-aos-delay="200">
+          من نحن؟ 
+        </h2>
+        <h1 class="title col-12" data-aos="fade-up" data-aos-delay="250">
+            مرحبًا بك في موقعنا الإلكتروني
+        </h1>
+        <p class="col-lg-10 col-12" data-aos="fade-up" data-aos-delay="300">
+          نحن نعمل باعتبارنا فريقًا متكاملًا ومنظمًا لتحقيق أهدافنا وتقديم قيمة للعملاء والمزودين
+          ندرس ونخطط للمستقبل بعناية، ونعمل على توسيع نطاق عملنا وتحقيق نجاح مستدام على المدى الطويل.
+        </p>
+        <p class="col-lg-10 col-12" data-aos="fade-left" data-aos-delay="325">
+          نعمل على مساعدتك في تحقيق أهدافك العملية من خلال استخدام
+          التكنولوجيا الحديثة بأفضل الطرق الممكنة.
+        </p>
+      </div>
+      <!-- image -->
+      <div class="col-12 col-lg-6 d-flex align-items-center " data-aos="fade-right" data-aos-delay="100">
+        <img src="{% static "website/images/about/1.jpg" %} " alt="about-img">
+      </div>
+    </div>
+    <div class="row flex-row-reverse mt-5 py-4 justify-content-center align-items-center g-4">
+
+
+    </div>
+
+
+  </div>
+</section>
+<!-- ============== End About section ========== -->
+ 
+  <!-- ============== Start Why us section ========== -->
+  <section class="container why-choose-us py-5">
+    <div class="heading">
+      <h2 class="unique-text" data-aos="fade-up">
+        لماذا تختارنا؟
+      </h2>
+      <h1 class="title col-12" data-aos="fade-up" data-aos-delay="100">
+        لماذا يختارنا العملاء
+      </h1>
+      <p class="col-lg-7 col-12" data-aos="fade-up" data-aos-delay="150">
+        نوفر للمزودين فرصة للوصول لعملاء جدد، زيادة الأعمال والمبيعات، إدارة أعمالهم بكفاءة، دعم العلامة التجارية  
+        <br/>
+        يختار العملاء تطبيقنا لحجز الخدمات وبيع المنتجات بناءً على الخدمة الممتازة، ومجموعة المنتجات والخدمات المتنوعة، والأمان، والجودة، والدعم الفني الذي نقدمه.
+
+
+
+      </p>
+    </div>
+    <div class="row  gy-4 gx-4">
+      <div class="col-md-6  col-lg-4 mx-auto" data-aos="fade-right" data-aos-delay="250">
+        <div class="box">
+          <h2 class="title-2 my-2 "> دعم علامتك التجارية </h2>
+          <p>يمكننا مساعدتكم في الترويج لخدماتكم أو منتجاتكم من خلال حملات تسويق مستهدفة. نستهدف العملاء المحتملين الذين يكونون مهتمين بما تقدمونه، ونساعدكم في بناء  
+            وتعزيز العلاقة مع العملاء الحاليين.
+            <br /><br />
+          </p>
+        </div>
+      </div>
+      <div class=" col-md-6  col-lg-4 mx-auto " data-aos="fade-up" data-aos-delay="200">
+        <div class="box">
+          <h2 class="title-2 my-2 ">زيادة المبيعات والعمل</h2>
+          <p>
+            من خلال توفير منصة إلكترونية لحجز الخدمات وشراء المنتجات، نساعدكم في زيادة حجم الأعمال والمبيعات. يمكن للعملاء البحث عنكم وحجز خدماتكم أو شراء منتجاتكم بسهولة وسرعة
+            ويكون لديك الفرصة  للوصول لعملاء جدد واستهداف شريحة أكبر من العملاء
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 mx-auto " data-aos="fade-left" data-aos-delay="250">
+        <div class="box">
+          <h2 class="title-2 my-2 ">تجربة مستخدم ممتازة</h2>
+          <p>
+               نوفر تجربة استخدام ممتازة للعملاء من خلال واجهة مستخدم سهلة وبسيطة، وعملية حجز سلسة وسريعة، مما يوفر لهم الوقت والجهد 
+               ويتيح  لكم تطبيقنا إدارة أعمالكم بطريقة مريحة وفعالة. يمكنكم تتبع وإدارة الحجوزات والطلبات، وتحديث المعلومات الخاصة بكم ومراقبة أداء أعمالكم  .
+
+
+               <br />
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ============== End Why us section ========== -->
+
+  
+  <!-- ============== Start contact section ========== -->
+  <section class="container contact py-5" id="contact">
+    <div class="heading ">
+      <h2 class="unique-text" data-aos="fade-up">
+        اتصل بنا
+      </h2>
+      <h1 class="title col-12" data-aos="fade-up" data-aos-delay="100">
+        هل لديك استفسار او مشكلة؟ راسلنا
+      </h1>
+    </div>
+    <div class="row gx-4">
+      <div class="col-12 col-lg-6 gy-3">
+        <h2 class="title-2" data-aos="fade-right" data-aos-delay="200">
+          معلومات التواصل :
+        </h2>
+        <div class="info d-flex my-4" data-aos="fade-right" data-aos-delay="250">
+          <h5><i class="bi bi-envelope-fill mx-4"></i>yasafco@gmail.com</h5>
+        </div>
+        <div class="info d-flex my-4" data-aos="fade-up" data-aos-delay="300">
+          <h5><i class="bi bi-phone-fill mx-4"></i>+96650...</h5>
+        </div>
+        <!--<div class="info d-flex my-4 " data-aos="fade-up" data-aos-delay="350">
+          <h5><i class="bi bi-geo-alt-fill mx-4"></i>A108 Adam Street, New York, NY 535022</h5>
+        </div>-->
+        <div class="info d-flex my-4 " data-aos="fade-up" data-aos-delay="400">
+          <h5><i class="bi bi-instagram mx-4"></i>شركة يسافكو</h5>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <!--Form To have user messages-->
+        <form class="main-form" id="contact-us-form" action="contact.php" method="post">
+          <div class="col-12">
+            <div class="row g-3 mb-1">
+              <div class="col-lg-6 col-12" data-aos="fade-right" data-aos-delay="200">
+                <input placeholder="الاسم" type="text" id="name" name="name" required class="text-input">
+              </div>
+              <div class="col-lg-6 col-12" data-aos="fade-left" data-aos-delay="200">
+                <input placeholder="الموضوع" type="text" id="subject" name="subject" required class="text-input">
+              </div>
+            </div>
+          </div>
+          <div class="col-12" data-aos-delay="250">
+            <input placeholder="الايميل" type="email" id="email" name="email" required class="text-input my-2">
+          </div>
+          <div class="col-12 " data-aos-delay="300">
+            <textarea placeholder="الرسالة" class="text-input my-2" rows="7" cols="30" id="message" name="message"
+              required></textarea>
+          </div>
+          <div class="col-12" data-aos-delay="350">
+            <button type="submit" value="Submit" class="btn">ارسال</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </section>
+  <!-- ============== end contact section ========== -->
+
+
+  {% endblock content %}

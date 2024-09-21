@@ -1,0 +1,83 @@
+{% extends '../../provider_base.html' %}
+{% load static %}
+
+{% block orders %}active{% endblock %}
+{% block product_order %}active{% endblock product_order %}
+{% block breadcrumbt %}
+    <li class="breadcrumb-item "><a a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a class="text-light" href="{% url "provider-product-orders" %}">product orders</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="">{{ product_order.product.name }}</a></li>
+
+{% endblock breadcrumbt %}
+{% block content %}
+
+<div class="container my-5">
+     <div class="row justify-content-center">
+         <div class="col-lg-10 col-md-12">
+             <div class="card shadow-sm " >
+                 <div class="card-header text-center text-white py-3">
+                     <h4 class="mb-0">تفاصيل طلب المنتج</h4> 
+                    </div> <div class="card-body text-right"> 
+                        <div class="row"> 
+                            <div class="col-md-6">
+                                <p><strong>المتجر:</strong> {{ product_order.product.store.name }}</p>
+                                <hr>
+                                <p><strong>المنتج:</strong> {{ product_order.product.name }}</p>
+                                <hr>
+                                <p><strong>الكمية:</strong> {{ product_order.quantity }}</p>
+                                <hr>
+                                <p><strong>سعر القطعة:</strong> {{ product_order.product.price }}</p>
+                                <hr>
+                                <p><strong>حالة الطلب:</strong> {{ product_order.get_status_display }}</p>
+                                <hr>
+                                <p><strong>كوبون:</strong> 
+                                    {% if product_order.coupon %}
+                                    {{ product_order.coupon.value }}% 
+                                    {% else %}
+                                    لا يوجد
+                                    {% endif %}
+                                </p>
+                                
+                                <hr>
+                                <p><strong>الضريبة:</strong> {{ product_order.tax }}ر.س</p>
+                            <hr>
+                            </div>
+                    <div class="col-md-6">
+                        
+                        <p><strong>الخصم:</strong> {{ product_order.product.offers }}%</p>
+                        <hr>
+                        <p><strong>السعر:</strong> {{ product_order.price_with_coupon }} .رس </p>
+                        <hr>
+                        <p><strong>تاريخ الحجز:</strong> {{ product_order.date|date:'Y-m-d' }}</p>
+                        <hr>
+                        <p><strong>العميل:</strong> {{ product_order.customer.name }}</p>
+                        <hr>
+                        <p><strong>الهاتف:</strong> {{ product_order.customer.phone }}</p>
+                        <hr>
+                        <p><strong>العنوان:</strong> {{ product_order.customer.address }}</p>
+                        <hr>
+                    </div>
+                
+                </div> 
+                {% if product_order.status == "PENDING" %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="btn btn-primary" href="{% url "accept-product-order" product_order.id %}">قبول</a>
+                        <a class="btn btn-danger" href="{% url "reject-product-order" product_order.id %}">رفض</a>
+                    </div>
+                </div>
+                {% endif %}
+                {% if product_order.status == "IN_PROGRESS" %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="btn btn-primary" href="{% url "complate-product-order" product_order.id %}">مكتمل</a>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+</div> 
+{% endblock %}

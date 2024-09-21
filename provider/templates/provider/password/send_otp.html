@@ -1,0 +1,25 @@
+{% extends "../../provider_base.html" %}
+{% load static %}
+
+{% block title %} Send Otp {% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center text-warning">
+  <div class="card mt-4 w-50   content animate__animated animate__fadeInUp">
+    <div class="card-body text-right">
+      <h3 class="card-title text-center text-primary">نسيت كلمة المرور</h3>
+     <p class="text-danger"> {{ error }}</p>
+      <form method="post" action="{% url "provider_send_otp" phone %}">
+        {% csrf_token %}
+        <p>سيتم إرسال الرمز كرسالة نصية على الرقم:</p>
+        <p>{{phone}}</p>
+        <button type="submit" class="btn  btn-outline-primary">إرسال الرمز</button>
+        <a id="next-button" href="{% url "provider-login" %}" class="btn btn-secondary">إلغاء</a>
+
+        
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

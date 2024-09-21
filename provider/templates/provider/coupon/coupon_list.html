@@ -1,0 +1,40 @@
+{% extends '../../provider_base.html' %}
+{% block title %} coupons {% endblock %}
+{% block coupons %}active{% endblock %}
+
+{% block breadcrumbt %}
+    <li class="breadcrumb-item "><a a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{% url "provider-coupon_list" %}">coupons</a></li>
+{% endblock breadcrumbt %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center">
+  <h3 class="text-primary">كوبونات</h3>
+  <a class="btn btn-primary m-2" href="{% url "provider-create_coupon" %}"> <i class="bi bi-plus-circle white-icon"></i></a>
+</div>
+    <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+        <thead>
+            <tr class="text-center">
+                 <th>#</th>
+                <th>الاسم</th>
+                <th>الرمز</th>
+                <th>قيمة الحسم</th>
+                <th>تاريخ الإنتهاء</th> 
+                <th> منتهي</th> 
+            </tr>
+        </thead >
+        <tbody class="text-center">
+          {% for coupon in coupons %}
+            <tr class="clickable-row"  onclick="window.location.href='{% url 'provider-update_coupon' coupon.id %}'">
+              <td>{{ coupon.id }}</td>
+              <td>{{ coupon.name }}</td>
+              <td>{{ coupon.code }}</td>
+              <td>{{ coupon.value }}</td>
+              <td>{{ coupon.expired }}</td>
+              <td>{{ coupon.is_expired }}</td>
+              
+            </tr>
+          {% endfor %}
+        </tbody>
+        </table>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends '../base.html' %}
+
+{% block title %} Privider Details {% endblock %}
+
+{% block css_style %}
+<!-- Bootstrap CSS -->
+{% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> {% endcomment %}
+{% endblock %}
+{% block provider_details  %}active{% endblock %}
+
+{% block content %}
+<!-- store_list.html -->
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card w-50">
+        <div class="card-body text-center">
+            <h5 class="card-title ">Privider Details</h5>
+    
+            <a href="{% url 'store_create' %}" class="btn btn-primary btn-md btn-icon">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+            </a>
+            
+        </div>
+    </div>
+</div>
+
+    <table class="table table-hover table-responsive-md text-center">
+        <thead>
+            <tr>
+                <th>Provider </th>
+                <th>Trade Name</th>
+                <th>Image</th>
+                <th>Actions</th><!-- New column for delete button -->
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for store in stores %}
+            <tr>
+                <td>{{ store.provider.name }}</td>
+                <td>{{ store.name }}</td>
+                <td>
+                    {% if store.image %}
+                        <img src="{{ store.image.url }}" alt="Store Image" width="100" height="100" class="img-thumbnail small-image">
+                    {% else %}
+                        No image available
+                    {% endif %}
+                </td>
+                <td>
+                    <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deletestoreModal{{ store.id }}">
+                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                      </button>
+                    <a href="{% url 'store_update' store.id %}" class="btn btn-success btn-sm btn-icon">
+                        <i class="now-ui-icons ui-2_settings-90"></i>
+                    </a>
+                 
+                </td>
+    
+            </tr>
+             <!-- Delete store Modal -->
+    <div class="modal fade" id="deletestoreModal{{ store.id }}" tabindex="-1" role="dialog" aria-labelledby="deletestoreModalLabel{{ store.id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deletestoreModalLabel{{ store.id }}">Delete store </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>"Are you sure you want to delete the store {{store.name}}?"</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <form action="{% url 'store_delete' store.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Delete store Modal -->
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+  
+
+{% endblock %}
+
+{% block js_script %}
+<!-- Bootstrap JS -->
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script> {% endcomment %}
+{% endblock %}
+

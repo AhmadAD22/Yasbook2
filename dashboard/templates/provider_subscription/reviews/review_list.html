@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %} Reviews {% endblock %}
+
+{% block subscription %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card w-50">
+        <div class="card-body text-center">
+            <h5 class="card-title ">Reviews</h5>
+    
+            <a href="{% url 'create_review' provider_id %}" class="btn btn-primary btn-md btn-icon">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+            </a>
+            
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover table-responsive-md text-center">
+    <thead>
+            <tr>
+                <tr>
+                    <th>Customer</th>
+                    <th>Provider</th>
+                    <th>Message</th>
+                    <th>Rate</th>
+                    <th>Action</th>
+                </tr>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+                <tr>
+                    <td>{{ review.customer }}</td>
+                    <td>{{ review.store }}</td>
+                    <td>{{ review.message }}</td>
+                    <td>{{ review.rating }}</td>
+                    <td>
+                        <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deletereviewModal{{ review.id }}">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                        <a href="{% url 'update_review' review.id %}" class="btn btn-success btn-sm btn-icon">
+                            <i class="now-ui-icons ui-2_settings-90"></i>
+                        </a>
+                    </td>
+                    <!-- Add more columns here as needed -->
+                </tr>
+                                            <!-- Delete review Modal -->
+    <div class="modal fade" id="deletereviewModal{{ review.id }}" tabindex="-1" role="dialog" aria-labelledby="deletereviewModalLabel{{ review.id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deletereviewModalLabel{{ review.id }}">Delete review </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>"Are you sure you want to delete the review for {{review.customer.name}}?"</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <form action="{% url 'delete_review' review.id  %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Delete review Modal -->
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ review.id }}">
+    Delete
+</button>
+<a href="{% url 'update_review' review.id %}" class="btn btn-primary">
+    Edit
+</a>
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal{{ review.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ review.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel{{ review.id }}">Delete review</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete {{ review.customer }}'s review?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{% url 'delete_review' review.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

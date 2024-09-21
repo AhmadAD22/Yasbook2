@@ -1,0 +1,138 @@
+{% extends "../provider_base.html" %}
+{% load static %}
+{% block breadcrumbt %}
+    <li class="breadcrumb-item active "><a a class="text-primary" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+{% endblock breadcrumbt %}
+{% block main_dashboard %}active{% endblock main_dashboard %}
+{% block title %} Main {% endblock %}
+
+{% block content %}
+<div class="row text-center m-0">
+    <div class="col-md-4 mb-4 ">
+        <div class="content animate__animated animate__fadeInUp">
+            <h5> الخدمات</h5>
+            <p>{{service_count}}</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="content animate__animated animate__fadeInUp">
+            <h5> المنتجات</h5>
+            <p>{{product_count}}</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="content animate__animated animate__fadeInUp">
+            <h5> الأخصائيين</h5>
+            <p>{{specialist_count}}</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="content animate__animated animate__fadeInUp">
+            <h5>الخدمات المكتملة</h5>
+            <p>{{service_order_count}}</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="content animate__animated animate__fadeInUp">
+            <h5> المنتجات المكتملة</h5>
+            <p>{{product_order_count}}</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="content animate__animated animate__fadeInUp">
+            <h5>الإشتراك</h5>
+            <p>{{subscription}} يوم</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="chart animate__animated animate__fadeInUp">
+            <canvas id="serviceOrdersChart"></canvas>
+            <h5 class="text-center mt-3">الخدمات</h5>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="chart animate__animated animate__fadeInUp">
+            <canvas id="ProductOrdersChart"></canvas>
+            <h5 class="text-center mt-3">المنتجات</h5>
+        </div>
+    </div>
+</div>
+<h3 class="text-center">العمولة المستحقة</h3>
+        <table class="table  text-light table-responsive-md text-center">
+            <thead>
+                <tr>
+                    <th>Statement</th>
+                    <th>Product</th>
+                    <th>Services</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Count</td>
+                    <td>{{ productorders_statistics.orders_counts }}</td>
+                    <td>{{ servicesorders_statistics.orders_counts }}</td>
+                    <td>{{ total_statistics.total_counts }}</td>
+                </tr>
+                <tr>
+                    <td>Profit</td>
+                    <td>{{ productorders_statistics.profit }}</td>
+                    <td>{{ servicesorders_statistics.profit }}</td>
+                    <td>{{ total_statistics.total_profit }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('serviceOrdersChart').getContext('2d');
+    var serviceOrdersChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ service_labels|safe }},
+            datasets: [{
+                label: 'Service Orders',
+                data: {{ service_data|safe }},
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    var ctx = document.getElementById('ProductOrdersChart').getContext('2d');
+    var ProductOrdersChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ product_labels|safe }},
+            datasets: [{
+                label: 'Product Orders',
+                data: {{ product_data|safe }},
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,163 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}
+    </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link href="{% static "dashboard/css/style2.css" %}" rel="stylesheet">
+</head>
+<body>
+    <div id="preloader">
+        <div class="spinner"></div>
+        
+      </div>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebarMenu" class="col-md-3 d-md-block navbar-expand-lg sidebar">
+                <div class="sidebar-sticky">
+                    <h4 class="text-center text-primary m-3">YasBook</h4>
+                    <ul class="nav flex-column text-right">
+                        <li class="nav-item m-1">
+                            <a class="nav-link m-1 {% block account %}{% endblock account %} collapsed" data-toggle="collapse" href="#collapse-myaccount" aria-expanded="false" aria-controls="collapse-myaccount">
+                                <img class="rounded-circle shadow-4-strong" width="25" height="25" alt="avatar2" src="{% static "dashboard/images/user.png" %}"/>
+                                {% if request.user.is_authenticated %}
+                                  {{ request.user.name }}
+                               {% endif %}
+                            </a>
+                            <div class="collapse" id="collapse-myaccount">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item m-1">
+                                        <a class="nav-link" href="{% url "provider_profile" %}">Profile</a>
+                                    </li>
+                                    <li class="nav-item m-1">
+                                        <a class="nav-link" href="{% url "provider-logout" %}">Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item m-1">
+                            <a class="nav-link {% block main_dashboard %}{% endblock main_dashboard %}" href="{% url "provider-main-dashboard" %}">لوحة التحكم</a>
+                        </li>
+                        <li class="nav-item m-1">
+                            <a class="nav-link {% block orders %}{% endblock orders %} collapsed" data-toggle="collapse" href="#collapse-subscription" aria-expanded="false" aria-controls="collapse-subscription">الحجوزات</a>
+                            <div class="collapse" id="collapse-subscription">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link m-1 {% block service_order %}{% endblock service_order %}" href="{% url "provider-service-orders" %}">خدمات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url "provider-product-orders" %}">منتجات</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item m-1">
+                            <a class="nav-link collapsed {% block store %}{% endblock store %}" data-toggle="collapse" href="#collapse-users" aria-expanded="false" aria-controls="collapse-users">المتجر</a>
+                            <div class="collapse" id="collapse-users">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link m-1 {% block settings %}{% endblock %}" href="{% url "store_update-settings" %}">إعدادات</a>
+                                    </li>
+                                    <li class="nav-item m-1">
+                                        <a class="nav-link {% block specialists %}{% endblock %}" href="{% url "store-specialist-list" %}">الأخصائيين</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {% block questions %} {% endblock %}" href="{% url "common_question_list" %}">الأسئلة </a>
+                                    </li>
+                                    
+                                    <li class="nav-item m-1">
+                                        <a class="nav-link {% block store_openings %}{% endblock store_openings %}" href="{% url "store_opening_list" %}">الإفتتاح</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item m-1">
+                            <a class="nav-link {% block products %}{% endblock products %}" href="{% url "provider-product_list" %}">المنتجات</a>
+                        </li>
+                        <li class="nav-item m-1">
+                            <a class="nav-link {% block services %}{% endblock %}" href="{% url "provider-service_list" %}">الخدمات</a>
+                        </li>
+                        
+                        <li class="nav-item m-1">
+                            <a class="nav-link {% block coupons %}{% endblock coupons %}" href="{% url "provider-coupon_list" %}">كوبونات الخصم</a>
+                        </li>
+                        <li class="nav-item m-1">
+                            <a class="nav-link {% block reports %}{% endblock reports %} collapsed" data-toggle="collapse" href="#collapse-report" aria-expanded="false" aria-controls="collapse-report">التقارير</a>
+                            <div class="collapse" id="collapse-report">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link m-1 {% block service_report %}{% endblock service_report %}" href="{% url "service_order_report" %}">خدمات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {% block product_reports %}{% endblock product_reports %}" href="{% url "product_order_report" %}">منتجات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {% block specialist_report %}{% endblock specialist_report %}" href="{% url "specialist_order_report" %}">أخصائيين</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {% block warehouse_report %}{% endblock warehouse_report %}" href="{% url "warehouse_report" %}">المخزن</a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        
+                    </ul>
+                </div>
+                
+            </nav>
+
+            <!-- Main Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-9 main-content">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent">
+                          {% block breadcrumbt %}
+                          
+                          {% endblock breadcrumbt %}
+                        </ol>
+                    </nav>
+                    <button class="btn btn-sm" id="sidebarToggleBtn" type="button" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"><i class="bi bi-menu-button-wide white-icon"></i></span> 
+                    </button>
+                </div>
+                {% block content %}
+                {% endblock content %}
+            </main>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('load', function() {
+          var preloader = document.getElementById('preloader');
+          preloader.classList.add('hide');
+        });
+      </script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Sidebar Toggle Script -->
+    <script>
+        $(document).ready(function () {
+            $('#sidebarToggleBtn').click(function () {
+                $('#sidebarMenu').toggleClass('show');
+            });
+        });
+
+        
+    </script>
+</body>
+</html>

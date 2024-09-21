@@ -1,0 +1,38 @@
+
+{% extends "basew.html" %}
+{% load static %}
+ {% block title %}terms{% endblock title %}
+ {% block content %}
+    <!-- ======= srart Breadcrumbs ======= -->
+    <section class="breadcrumbs py-4" data-aos="fade-up" data-aos-delay="100" dir="rtl" >
+        <div class="container">
+            <ol>
+                <li><a href="{% url "website.home" %}">الرئيسية</a></li>
+                <li>  سياسة الخصوصية  </li>
+            </ol>
+            <h2 class="title text-center">سياسة الخصوصية </h2>
+            
+        </div>
+    </section><!-- End Breadcrumbs -->
+    
+    <section class="mt-4 pt-4 mb-4 pb-2" data-aos="fade-up" data-aos-delay="200">
+        <div class="container text-right" dir="rtl" >
+            
+            <div class="text-end" dir="rtl">
+            <ol>
+             {% for priv in privacy  %}
+                <li>
+                    <h2 class="" >{{priv.title}}</h2>
+                    <p class="text-right">
+                        {{priv.description}}
+                    </p>
+                </li>
+                {% endfor %}
+            </ol>
+            </div>
+            
+           
+        </div>
+    </section>
+  {% endblock content %}
+  

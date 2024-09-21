@@ -1,0 +1,42 @@
+{% extends '../../provider_base.html' %}
+{% block title %} Store Openings {% endblock %}
+{% block store_openings %}active{% endblock %}
+{% block store %}active{% endblock store %}
+
+{% block breadcrumbt %}
+<li class="breadcrumb-item "><a a class="text-light" href="{% url "provider-main-dashboard" %}">Dashboard</a></li>
+<li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{% url "store_opening_list" %}">Store Openings</a></li>
+{% endblock breadcrumbt %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center"> 
+    <h3 class="text-primary">Store Openings</h3>
+     <a class="btn btn-primary m-2" href="{% url "store_opening_create" %}"> 
+        <i class="bi bi-plus-circle white-icon"></i>
+     </a> 
+</div> 
+  <table class="table table-responsive-sm table-striped table-dark table-hover text-white">
+    <thead>
+      <tr class="text-center">
+        <th>#</th>
+        <th>Day</th>
+        <th>Time Start</th>
+        <th>Time End</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      {% for store_opening in store_openings %}
+      <tr class="clickable-row"  onclick="window.location.href='{% url 'store_opening_edit' store_opening.id %}'">
+            <td>{{ store_opening.id }}</td>
+          <td>{{ store_opening.day }}</td>
+          <td>{{ store_opening.time_start|time:"H:i" }}</td>
+          <td>{{ store_opening.time_end|time:"H:i" }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No store openings found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

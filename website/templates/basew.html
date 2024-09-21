@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="techida | IT Solutions & Business Services HTML landing page template ">
+  <!-- fav icon -->
+  <link rel="icon" href="images/favicon.ico">
+
+  <!-- bootstarp css file -->
+  <link rel="stylesheet" href="{% static "website/css/bootstrap.min.css" %} ">
+
+  <!-- aos.css file -->
+  <link rel="stylesheet" href="{% static "website/css/aos.css" %}">
+
+  <!-- fancybox css file -->
+  <link rel="stylesheet" href="{% static "website/css/jquery.fancybox.min.css" %} ">
+
+  <!-- owl carousel css file -->
+  <link rel="stylesheet" href="{% static "website/css/owl.carousel.min.css" %} ">
+  <link rel="stylesheet" href="{% static "website/css/owl.theme.default.min.css" %} ">
+
+  <!--  toasts file     -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+  <!-- bootstrap icons -->
+  <link rel="stylesheet" href="{% static "website/css/bootstrap-icons/bootstrap-icons.css" %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+  <!-- Google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- main css file -->
+  <link rel="stylesheet" href="{% static "website/css/style.css" %}">
+  <title> {% block title %}{% endblock title %}</title>
+</head>
+
+<body class="home-rtl">
+ <!-- start preLoader -->
+ <div id="preloader">
+    <svg id="mainSVG" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+      <defs>
+        <radialGradient id="mainGrad" cx="400" cy="300" fx="400" fy="300" r="100" gradientUnits="userSpaceOnUse">
+          <stop offset=".68" stop-color="#c494ff" />
+          <stop offset=".72" stop-color="#c494fe" />
+          <stop offset=".77" stop-color="#c494fd" />
+          <stop offset=".82" stop-color="#c494fc" />
+          <stop offset=".88" stop-color="#c494fb" />
+          <stop offset=".93" stop-color="#c494fa" />
+          <stop offset=".99" stop-color="#c49409" />
+          <stop offset="1" stop-color="#c49408" />
+        </radialGradient>
+      </defs>
+      <circle id="fillDot" cx="400" cy="300" fill="#c494ff" r="100" />
+      <circle id="gradDot" cx="400" cy="300" fill="url(#mainGrad)" r="100" />
+    </svg>
+  </div>
+  <!-- end preLoader -->
+
+  <!-- start scroll to top button -->
+  <div id="progress">
+    <span id="progress-value"><i class="bi bi-arrow-up-short"></i></span>
+  </div>
+  <!-- end scroll to top button -->
+
+  <!-- ======= start Header ======= -->
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+      <div class="container">
+        <a class="navbar-brand " href="{% url "website.home" %}"><img src="{% static "website/images/logo/logo.png" %}" class="logo" alt="LOGO"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list" id="menu"></i>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+          <ul class="navbar-nav d-flex flex-row-reverse ms-auto" id="navbar">
+            <li class="nav-item ">
+              <a class="nav-link {% block home %}{% endblock home %} " aria-current="page" href="{% url "website.home" %}">الرئيسية</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% block about %}{% endblock about %}" href="{% url "website.about" %}">من نحن</a>
+            </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle {% block works %}{% endblock works %}" href="services.html" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            أعمالنا
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item py-2" href="{% url "website.yasbook" %}">YasBook</a></li>
+          </ul>
+        </li>
+            <li class="nav-item">
+              <a class="nav-link {% block contact %}{% endblock contact %}" href="{% url "website.contact" %}">اتصل بنا</a>
+            </li>
+          </ul>
+          <div class="d-flex ms-auto">
+            {% block button %}{% endblock button %}
+            <button id="mode-toggle" class="btn-light-mode switch-button"><i id="mode-icon"
+                class="bi bi-moon-fill"></i></button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- ======= end Header ======= -->
+
+
+  {% block content %}
+  
+  {% endblock content %}
+
+  <!-- ============== Start Footer section ========== -->
+  <div class="footer">
+    <div class="container">
+      <div class="row justify-content-center align-items-center g-4">
+
+        <div class="col-12 col-lg-3 col-md-6 mx-auto d-flex flex-column align-items-end my-4 gap-3">
+          <h4>روابط سريعة</h4>
+          <ul class="d-flex flex-column align-items-end gap-3">
+            <li class="d-flex align-items-center gap-2"><a href="{% url "website.terms_of_use" %}">شروط الاستخدام</a><i class="bi bi-chevron-left"></i>
+            </li>
+            <li class="d-flex align-items-center gap-2"><a href="{% url "website.privacy_policy" %}">سياسة الخصوصية</a><i class="bi bi-chevron-left"></i>
+            </li>
+            <li class="d-flex align-items-center gap-2"><a href="{% url "website.contact" %}">اتصل بالدعم</a><i class="bi bi-chevron-left"></i>
+            </li>
+            <!--<li class="d-flex align-items-center gap-2"><a href="#">الأسئلة الشائعة</a><i class="bi bi-chevron-left"></i></li>-->
+          </ul>
+        </div>
+        <div class="col-12 col-lg-3 col-md-6 mx-auto d-flex flex-column align-items-end my-4 gap-3">
+          <h4>خريطة الموقع</h4>
+          <ul class="d-flex flex-column align-items-end gap-3">
+            <li class="d-flex align-items-center gap-2"><a href="{% url "website.home" %}">الرئيسية</a><i class="bi bi-chevron-left"></i>
+            </li>
+            <li class="d-flex align-items-center gap-2"><a href="{% url "website.about" %}">من نحن</a><i class="bi bi-chevron-left"></i>
+            </li>
+            <li class="d-flex align-items-center gap-2"><a href="{% url "website.yasbook" %}">ياسبوك</a><i class="bi bi-chevron-left"></i>
+            </li>
+            <!--<li class="d-flex align-items-center gap-2"><a href="#">معرضنا</a><i class="bi bi-chevron-left"></i></li>-->
+            <li class="d-flex align-items-center gap-2"><a href="{% url "website.contact" %}">اتصل بنا</a><i class="bi bi-chevron-left"></i></li>
+          </ul>
+        </div>
+        <div class="col-12 col-lg-3 col-md-6 mx-auto d-flex flex-column align-items-end my-4 gap-3">
+          <h4>من نحن</h4>
+          <ul class="d-flex flex-column align-items-end gap-3">
+            <!--<li class="d-flex align-items-center gap-2"><a href="#">قصتنا</a><i class="bi bi-chevron-left"></i></li>-->
+            <!--<li class="d-flex align-items-center gap-2"><a href="#">أعضاء الفريق</a><i class="bi bi-chevron-left"></i></li>-->
+            <!--<li class="d-flex align-items-center gap-2"><a href="#">وظائف</a><i class="bi bi-chevron-left"></i></li>-->
+            <li class="d-flex align-items-center gap-2"><a href="{% url "website.contact" %}">اتصل بنا</a><i class="bi bi-chevron-left"></i></li>
+          </ul>
+        </div>
+        <div class="col-12 col-lg-3 col-md-6 mx-auto my-4">
+          <div class="box d-flex flex-column align-items-end">
+            <a href="#" class="logo "><img class="my-2" src="images/logo/logo.png" alt=""></a>
+            <p>
+              نسعى لتقديم أفضل الحلول التكنولوجية المخصصة لدعم نجاح عملك.
+            </p>
+            <h4 class="my-2">
+              تواصل معنا
+            </h4>
+            <div class="social d-flex gap-2">
+              <div class="icon"><i class="bi bi-facebook"></i></div>
+              <div class="icon"><i class="bi bi-instagram"></i></div>
+              <div class="icon"><i class="bi bi-twitter "></i></div>
+              <div class="icon"><i class="bi bi-youtube"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="copyrights ">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-6 d-flex justify-content-start">
+            <div>
+              <a href="{% url "website.terms_of_use" %}">شروط الاستخدام </a>
+              | <a href="{% url "website.privacy_policy" %}">سياسة الخصوصية</a>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 d-flex justify-content-end ">
+              <p class="creadits">
+                  &copy; جميع الحقوق محفوظة: <a href="#">لشركة يسافكو</a> <span id="currentYear"></span>
+              </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============== end Footer section ========== -->
+
+  <!--  JQuery file     -->
+  <script src="{% static "website/js/jquery-3.6.1.min.js" %} "></script>
+
+  <!-- bootstrap min js -->
+  <script src="{% static "website/js/bootstrap.min.js" %}"></script>
+
+  <!--  toasts file     -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+  <!--  owl carousel    -->
+  <script src="{% static "website/js/owl.carousel.min.js" %}"></script>
+
+  <!-- aos file    -->
+  <script src="{% static "website/js/aos.js" %}"></script>
+
+  <!-- gsap file    -->
+  <script src="{% static "website/js/gsap.min.js" %} "></script>
+
+  <!--  counter     -->
+  <script src="{% static "website/js/jquery.counterup.min.js" %}"></script>
+  <script src="{% static "website/js/jquery.waypoints.js" %} "></script>
+
+  <!-- particles js file  -->
+  <script src="{% static "website/js/particles.min.js" %} "></script>
+
+  <!-- jquery isotope file -->
+  <script src="{% static "website/js/isotope.min.js" %} "></script>
+
+  <!-- jquery fancybox file -->
+  <script src="{% static "website/js/jquery.fancybox.min.js" %} "></script>
+
+  <!--  main js file  -->
+  <script src="{% static "website/js/main.js" %} "></script>
+
+
+</body>
+
+</html>

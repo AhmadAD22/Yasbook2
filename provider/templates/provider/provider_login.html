@@ -1,0 +1,37 @@
+{% extends "../provider_base.html" %}
+{% load static %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center text-warning">
+  <div class="card mt-4 w-50 content animate__animated animate__fadeInUp">
+    <div class="card-body text-right">
+      <h3 class="card-title text-center text-primary">تسجيل الدخول</h3>
+      {{ error_message }}
+      <form id="loginForm" method="post" action="#">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="phone" class="form-label">رقم الهاتف</label>
+          <input type="text" id="phone" name="phone" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">كلمة السر</label>
+          <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <!-- Hidden field to store FCM token -->
+        <input type="hidden" id="fcm_token" name="fcm_token" value="">
+        <button type="submit" id="submitBtn" class="btn btn-outline-primary">Login</button>
+      </form>
+      <div class="mt-3 d-flex justify-content-between">
+        <a id="signup-link" href="{% url 'provider_signup' %}" class="text-light">إنشاء حساب جديد</a>
+        <a id="otp-link" href="#" class="text-light">نسيت كلمة المرور؟</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}
